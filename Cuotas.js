@@ -20,19 +20,19 @@ alert(  "teclado " +    "$" +    precioTeclado +    "\n" +    "pad " +    "$" + 
 
 //usuario escriben en prompt el producto que desea comprar, y se deposita en un array para calcular total del compra
 do {
-  productos = prompt("produco a comprar");
+  productos = prompt("ingrese el nombre del producto a comprar   \n  (para finalizar la compra ingrese 0)");
 
   if (productos === "teclado") {
     carrito.push(precioTeclado);
-    alert("para finalizar compra, esribir 0");
+    
   }
   if (productos === "pad") {
     carrito.push(precioPad);
-    alert("para finalizar compra, esribir 0");
+    
   }
   if (productos === "mouse") {
     carrito.push(precioMouse);
-    alert("para finalizar compra, esribir 0");
+    
   }
 } while (productos != 0);
 
