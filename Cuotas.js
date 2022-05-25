@@ -1,7 +1,7 @@
 let valor;
 let cuotas;
 let precioTeclado = 10000;
-let PrecioPad = 1500;
+let precioPad = 1500;
 let precioMouse = 5000;
 
 carrito = [];
@@ -15,31 +15,40 @@ function sumacarrito() {
 }
 
 // el usuario ve los productos y valores
-alert(  "teclado " +    "$" +    precioTeclado +    "\n" +    "pad " +    "$" +    PrecioPad +    "\n" +    "mouse " +    "$" +    precioMouse
-);
+alert("teclado $"+precioTeclado +"\npad $"+precioPad +"\nmouse $" +precioMouse);
 
 //usuario escriben en prompt el producto que desea comprar, y se deposita en un array para calcular total del compra
 do {
-  productos = prompt("ingrese el nombre del producto a comprar   \n  (para finalizar la compra ingrese 0)");
+  productoIngresado = prompt(
+    "Ingrese el nombre del producto \n (para finalizar la compra ingrese 0)"
+  );
 
-  if (productos === "teclado") {
-    carrito.push(precioTeclado);
-    
+  switch (productoIngresado) {
+    case "teclado":
+      carrito.push(precioTeclado);
+      break;
+    case "mouse":
+      carrito.push(precioMouse);
+      break;
+    case "pad":
+      carrito.push(precioPad);
+      break;
+      case "0" :
+        break;
+      default:
+        alert("ingresa el nombre de un producto")
+        break;
   }
-  if (productos === "pad") {
-    carrito.push(precioPad);
-    
-  }
-  if (productos === "mouse") {
-    carrito.push(precioMouse);
-    
-  }
-} while (productos != 0);
+
+} while (productoIngresado != 0);
 
 let total = sumacarrito();
 
 function calculadora(total, cuotas) {
+  if(cuotas != 1){
   return (total / cuotas) * 1.0425;
+  } else 
+  return (total)
 }
 
 do {
@@ -54,4 +63,4 @@ do {
 console.log(total);
 console.log(cuotas);
 let precio = calculadora(total, cuotas);
-alert(precio);
+alert("Cantidad de cuotas" + cuotas +"\nValor de su cuota $" + precio)
