@@ -20,6 +20,12 @@
 
 
 <button id="AgregarMouse" class="button">Agregar</button>
+<br>
+<br>
+<p>Prodcutos seleccionados</p>
+<p id="productosCarrito"> </p>
+<br>
+<br>
 <P>Cantidad de Cuotas</P>
 <input id= "CantidadCuotas" type="number" placeholder="Cantidad de cuotas"  min="1" max="12" > 
 <br>
@@ -27,7 +33,7 @@
 <br>
 <button id="ValorTotal" class="button" onclick="mostrarPrecio()">Calcular Total</button>
 <p>Valor Total:<input id= "precioFinal" type="text" placeholder="precioFinal" readonly></p>
-
+<button  class="button" onclick="vaciarCarrito()">Vaciar Carrito</button>
 </div>
 <script src="Cuotas.js"></script>
 </body>

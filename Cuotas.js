@@ -1,36 +1,45 @@
-let valor;
+let teclado = {tipo:"Teclado", cantidad : 0, precio: 10000 }
+let pad = {tipo:"Pad", cantidad : 0, precio: 1500 }
+let mouse = {tipo:"Mouse", cantidad : 0, precio: 5000 }
+let carritoString = "";
+let precioTotal = 0;
 
-let precioTeclado = 10000;
-let precioPad = 1500;
-let precioMouse = 5000;
+carrito = JSON.parse(localStorage.getItem("Compra")) || [teclado,pad,mouse];
 
-carrito = [];
-
-
-
-
-let carritoLocal = JSON.parse(localStorage.getItem("Compra"))
-if(carritoLocal){
-  carrito = carritoLocal
-}
+actualizarTextoCarrito();
 
 function CarritoTeclado() {
-  carrito.push(precioTeclado);
-  guardarLocal(carrito)
+  sumarAlCarrito("Teclado");
 }
 
 function CarritoPad() {
-  carrito.push(precioPad);
-  guardarLocal(carrito)
+  sumarAlCarrito("Pad");
 }
 
 function CarritoMouse() {
-  carrito.push(precioMouse);
-  guardarLocal(carrito)
+  sumarAlCarrito("Mouse");
 }
 
+function sumarAlCarrito(key){
+  carrito.find(element => element.tipo == key).cantidad ++;
+  guardarLocal();
+  actualizarTextoCarrito();
+}
 
+function actualizarTextoCarrito(){
+  carritoString = "";
+  carrito.forEach(element=>{
+    carritoString += element.cantidad > 0 ? `${element.tipo} x ${element.cantidad} <br>` : "";
+  });
+  document.getElementById("productosCarrito").innerHTML = carritoString;  
+}
 
+function vaciarCarrito(){
+  borrarLocal();
+  carrito.map(element => element.cantidad = 0);
+  document.getElementById("precioFinal").value = 0;
+  actualizarTextoCarrito();
+}
 
 let boton = document.getElementById("AgregarTeclado");
 boton.onclick = CarritoTeclado;
@@ -41,33 +50,26 @@ boton2.onclick = CarritoPad;
 let boton3 = document.getElementById("AgregarMouse");
 boton3.onclick = CarritoMouse;
 
-console.log(carrito);
-
-function guardarLocal(valor) {
-  
-  localStorage.setItem("Compra", JSON.stringify(valor))
-
+function guardarLocal() {
+  localStorage.setItem("Compra", JSON.stringify(carrito));
 };
 
+function borrarLocal() {
+ localStorage.clear("Compra")
+};
+
+function calculadora() {
+  let cuotas = document.getElementById("CantidadCuotas").value;
+  return cuotas !=  1 ? (precioTotal / cuotas) * 1.0425 : (precioTotal);
+}
+function mostrarPrecio() {
+  sumacarrito()
+  let precio = calculadora()
+  document.getElementById("precioFinal").value = precio.toFixed(2);
+}
 
 function sumacarrito() {
-  let precioTotal = 0;
-  for (i = 0; i < carrito.length; i++) {
-    precioTotal += carrito[i];
-  }
-  return precioTotal;
-}
-
-function calculadora(total) {
-  let cuotas = document.getElementById("CantidadCuotas").value;
-  if (cuotas != 1) {
-    return (total / cuotas) * 1.0425;
-  } else return total;
-}
-
-function mostrarPrecio() {
-  precio=calculadora(sumacarrito())
-  document.getElementById("precioFinal").value = precio.toFixed(2);
+  precioTotal = carrito.reduce((previo,element) => previo + element.cantidad * element.precio,0);
 }
 
 
