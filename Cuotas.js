@@ -1,44 +1,62 @@
-let teclado = {tipo:"Teclado", cantidad : 0, precio: 10000 }
-let pad = {tipo:"Pad", cantidad : 0, precio: 1500 }
-let mouse = {tipo:"Mouse", cantidad : 0, precio: 5000 }
+let valor;
+
+let precioTeclado = 10000;
+let precioPad = 1500;
+let precioMouse = 5000;
+
+
 let carritoString = "";
+
+let compraJson = localStorage.getItem("Compra") || "";
+cantidadEnCarrito = compraJson == "" ? new Map() : new Map(Object.entries(JSON.parse(compraJson)));
+
+precios = new Map();
+precios.set("Teclado",10000);
+precios.set("Pad",1500);
+precios.set("Mouse",5000);
+
+
 let precioTotal = 0;
-
-carrito = JSON.parse(localStorage.getItem("Compra")) || [teclado,pad,mouse];
-
 actualizarTextoCarrito();
 
 function CarritoTeclado() {
-  sumarAlCarrito("Teclado");
+  sumarAlCarrito("Teclado")
+  guardarLocal()
+  actualizarTextoCarrito()
 }
 
 function CarritoPad() {
-  sumarAlCarrito("Pad");
+  sumarAlCarrito("Pad")
+  guardarLocal()
+  actualizarTextoCarrito()
 }
 
 function CarritoMouse() {
-  sumarAlCarrito("Mouse");
+  sumarAlCarrito("Mouse")
+  guardarLocal()
+  actualizarTextoCarrito()
 }
 
-function sumarAlCarrito(key){
-  carrito.find(element => element.tipo == key).cantidad ++;
-  guardarLocal();
-  actualizarTextoCarrito();
+function sumarAlCarrito(key){  // !carritos2.has("Teclado")
+  !cantidadEnCarrito.has(key) ?  cantidadEnCarrito.set(key, 1) : cantidadEnCarrito.set(key,cantidadEnCarrito.get(key) + 1);
 }
 
 function actualizarTextoCarrito(){
   carritoString = "";
-  carrito.forEach(element=>{
-    carritoString += element.cantidad > 0 ? `${element.tipo} x ${element.cantidad} <br>` : "";
-  });
+  cantidadEnCarrito.forEach(obtenerTextosSegunCantidad);
   document.getElementById("productosCarrito").innerHTML = carritoString;  
 }
 
+function obtenerTextosSegunCantidad(value, key, map) {
+  let str = `${key} x ${value} <br>`;
+  carritoString += str;
+}
+
 function vaciarCarrito(){
-  borrarLocal();
-  carrito.map(element => element.cantidad = 0);
+  borrarLocal()
+  cantidadEnCarrito = new Map();
   document.getElementById("precioFinal").value = 0;
-  actualizarTextoCarrito();
+  document.getElementById("productosCarrito").innerHTML = ""; 
 }
 
 let boton = document.getElementById("AgregarTeclado");
@@ -50,13 +68,23 @@ boton2.onclick = CarritoPad;
 let boton3 = document.getElementById("AgregarMouse");
 boton3.onclick = CarritoMouse;
 
+console.log(cantidadEnCarrito);
+
 function guardarLocal() {
-  localStorage.setItem("Compra", JSON.stringify(carrito));
+  localStorage.setItem("Compra", JSON.stringify(Object.fromEntries(cantidadEnCarrito)));
 };
 
 function borrarLocal() {
  localStorage.clear("Compra")
 };
+
+function calcularMontoPorTipo(value, key, map) {
+  //la key es el tipo (Teclado, Pad, Mouse)
+  // El value es la cantidad de ese objeto en el carrito.
+  let subtotalItem = precios.get(key) * value;
+  console.log("El subtotal (sin interes) de "+key+" es " + subtotalItem);
+  precioTotal += subtotalItem;
+}
 
 function calculadora() {
   let cuotas = document.getElementById("CantidadCuotas").value;
@@ -69,7 +97,8 @@ function mostrarPrecio() {
 }
 
 function sumacarrito() {
-  precioTotal = carrito.reduce((previo,element) => previo + element.cantidad * element.precio,0);
+  precioTotal = 0;
+  cantidadEnCarrito.forEach(calcularMontoPorTipo)
 }
 
 
