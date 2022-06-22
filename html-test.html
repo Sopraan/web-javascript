@@ -1,45 +1,60 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proyecto JS</title>
+    <h1>TEST</h1>
+  </head>
+  <body>
+    <div id="lista">
+      <button id="class" ="button" onclick="preciosViejos()">
+        Precios anteriores
+      </button>
+      <button id="class" ="button" onclick="preciosNuevos()">
+        Precios actuales
+      </button>
+      <p id="precioTeclado">Teclado $10.000</p>
+      <button id="AgregarTeclado" class="button">Agregar</button>
+      <p id="precioPad">Pad $1.500</p>
+      <button id="AgregarPad" class="button">Agregar</button>
+      <p id="precioMouse">Mouse $5.000</p>
 
-<title>Proyecto JS</title>
-<h1>TEST</h1>
-
-
-
-</head>
-<body>
-<div id="lista">
- <p id="precioTeclado">Teclado $10.000 </p>   
-<button id="AgregarTeclado" class="button">Agregar</button>
-<p id="precioPad">Pad $1.500 </p>   
-<button id="AgregarPad" class="button">Agregar</button>
-<p id="precioMouse">Mouse $5.000 </p>   
-
-
-<button id="AgregarMouse" class="button">Agregar</button>
-<br>
-<br>
-<p>Prodcutos seleccionados</p>
-<p id="productosCarrito"> </p>
-<br>
-<br>
-<P>Cantidad de Cuotas</P>
-<input id= "CantidadCuotas" type="number" placeholder="Cantidad de cuotas"  min="1" max="12" > 
-<br>
-<br>
-<br>
-<button id="ValorTotal" class="button" onclick="mostrarPrecio()">Calcular Total</button>
-<p>Valor Total:<input id= "precioFinal" type="text" placeholder="precioFinal" readonly></p>
-<button  class="button" onclick="vaciarCarrito()">Vaciar Carrito</button>
-<br>
-<br>
-<button  class="button" onclick="finalizarCompra()">Comprar</button>
-</div>
-<script src="Cuotas.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-</body>
-
+      <button id="AgregarMouse" class="button">Agregar</button>
+      <br />
+      <br />
+      <p>Prodcutos seleccionados</p>
+      <p id="productosCarrito"></p>
+      <br />
+      <br />
+      <p>Cantidad de Cuotas</p>
+      <input
+        id="CantidadCuotas"
+        type="number"
+        placeholder="Cantidad de cuotas"
+        min="1"
+        max="12"
+      />
+      <br />
+      <br />
+      <br />
+      <button id="ValorTotal" class="button" onclick="mostrarPrecio()">
+        Calcular Total
+      </button>
+      <p>
+        Valor Total:<input
+          id="precioFinal"
+          type="text"
+          placeholder="precioFinal"
+          readonly
+        />
+      </p>
+      <button class="button" onclick="vaciarCarrito()">Vaciar Carrito</button>
+      <br />
+      <br />
+      <button class="button" onclick="finalizarCompra()">Comprar</button>
+    </div>
+    <script src="Cuotas.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  </body>
 </html>

@@ -1,0 +1,20 @@
+[
+    {
+        "nombre":"teclado",
+        "precioViejo": 12000,
+        "precioNuevo": 10000
+    },
+
+{
+    "nombre":"pad",
+    "precioViejo": 2000,
+    "precioNuevo": 1500
+
+},
+
+    {
+        "nombre":"mouse",
+        "precioViejo": 6000,
+        "precioNuevo": 5000
+    }
+]

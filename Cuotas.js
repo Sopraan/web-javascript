@@ -1,6 +1,6 @@
 let valor;
 
-let precioTeclado = 10000;
+//let precioTeclado = 10000;
 let precioPad = 1500;
 let precioMouse = 5000;
 
@@ -16,6 +16,57 @@ precios = new Map();
 precios.set("Teclado", 10000);
 precios.set("Pad", 1500);
 precios.set("Mouse", 5000);
+
+
+// se utiliza la funcion fetch para obtener valores del JSON y reflejarlos en el HTML
+function preciosViejos() {
+  fetch("./JSON.json")
+    .then((ofertas) => ofertas.json())
+    .then((ofertas) => {
+      ofertas.forEach((oferta) => {
+        if (oferta.nombre === "teclado") {
+          document.getElementById(
+            "precioTeclado"
+          ).innerHTML = `Teclado $ ${oferta.precioViejo}`;
+        }
+        if (oferta.nombre === "pad") {
+          document.getElementById(
+            "precioPad"
+          ).innerHTML = `Pad $ ${oferta.precioViejo}`;
+        }
+        if (oferta.nombre === "mouse") {
+          document.getElementById(
+            "precioMouse"
+          ).innerHTML = `Mouse $ ${oferta.precioViejo}`;
+        }
+      });
+    });
+}
+
+// se utiliza la funcion fetch para obtener valores del JSON y reflejarlos en el HTML
+function preciosNuevos() {
+  fetch("./JSON.json")
+    .then((ofertas) => ofertas.json())
+    .then((ofertas) => {
+      ofertas.forEach((oferta) => {
+        if (oferta.nombre === "teclado") {
+          document.getElementById(
+            "precioTeclado"
+          ).innerHTML = `Teclado $ ${oferta.precioNuevo}`;
+        }
+        if (oferta.nombre === "pad") {
+          document.getElementById(
+            "precioPad"
+          ).innerHTML = `Pad $ ${oferta.precioNuevo}`;
+        }
+        if (oferta.nombre === "mouse") {
+          document.getElementById(
+            "precioMouse"
+          ).innerHTML = `Mouse $ ${oferta.precioNuevo}`;
+        }
+      });
+    });
+}
 
 let precioTotal = 0;
 actualizarTextoCarrito();
@@ -109,12 +160,10 @@ function sumacarrito() {
   cantidadEnCarrito.forEach(calcularMontoPorTipo);
 }
 
-
-
 // Se utilizo sweetAlert para niticar al usuario si efectivmaente se relizo la compra o si surgio algun error
 
 function finalizarCompra() {
-  if (precioTotal!= 0) {
+  if (precioTotal != 0) {
     swal({
       title: "Compra Finalizada!",
       icon: "success",
