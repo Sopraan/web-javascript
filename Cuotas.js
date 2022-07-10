@@ -1,9 +1,3 @@
-let valor;
-
-//let precioTeclado = 10000;
-let precioPad = 1500;
-let precioMouse = 5000;
-
 let carritoString = "";
 
 let compraJson = localStorage.getItem("Compra") || "";
@@ -99,7 +93,7 @@ function sumarAlCarrito(key) {
 function actualizarTextoCarrito() {
   carritoString = "";
   cantidadEnCarrito.forEach(obtenerTextosSegunCantidad);
-  document.getElementById("productosCarrito").innerHTML = carritoString;
+  document.getElementById("productosCarrito").innerHTML = `Producrtos Seleccionados <br><br>`+ carritoString;
 }
 
 function obtenerTextosSegunCantidad(value, key, map) {
@@ -115,6 +109,19 @@ function vaciarCarrito() {
   document.getElementById("productosCarrito").innerHTML = "";
 }
 
+
+
+function ocultarCarrito(){
+  carritoString = "";
+  cantidadEnCarrito.forEach(obtenerTextosSegunCantidad);
+  document.getElementById("productosCarrito").innerHTML = ""
+}
+
+/*  PENDIENTE  ENTREGA FINAL  -----    crear boton para mostrar y ocultar carrito
+    usar las variables de botones, y veer como hacer para que el html no mueste de entrada el carrito
+     sino que cuando se toque el boton de mostrar muestre el carrito actualizado
+*/
+
 let boton = document.getElementById("AgregarTeclado");
 boton.onclick = CarritoTeclado;
 
@@ -125,6 +132,9 @@ let boton3 = document.getElementById("AgregarMouse");
 boton3.onclick = CarritoMouse;
 
 console.log(cantidadEnCarrito);
+
+
+// ----------------------------------------------------------------
 
 function guardarLocal() {
   localStorage.setItem(
