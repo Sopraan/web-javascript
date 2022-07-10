@@ -4,23 +4,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Proyecto JS</title>
-    <h1>TEST</h1>
+    <h1>Carrito de Compras</h1>
   </head>
   <body>
     <div id="lista">
       <button id="class" ="button" onclick="preciosViejos()">
         Precios anteriores
       </button>
-      <button id="class" ="button" onclick="preciosNuevos()">
+      <button id="class" ="button" onclick="cargarPreciosEnVista()">
         Precios actuales
       </button>
-      <p id="precioTeclado">Teclado $10.000</p>
-      <button id="AgregarTeclado" class="button">Agregar</button>
-      <p id="precioPad">Pad $1.500</p>
-      <button id="AgregarPad" class="button">Agregar</button>
-      <p id="precioMouse">Mouse $5.000</p>
+      <p id="precioTeclado"></p>
+      <button id="agregarTeclado" class="button">Agregar</button>
+      <p id="precioPad"></p>
+      <button id="agregarPad" class="button">Agregar</button>
+      <p id="precioMouse"></p>
 
-      <button id="AgregarMouse" class="button">Agregar</button>
+      <button id="agregarMouse" class="button">Agregar</button>
       <br />
       <br />
       <button class="button" onclick="actualizarTextoCarrito()">Mostrar Carrito</button>
@@ -29,9 +29,9 @@
       <p id="productosCarrito"></p>
       <br />
       <br />
-      
+      <p>Cantidad de Cuotas</p>
       <input
-        id="CantidadCuotas"
+        id="cantidadCuotas"
         type="number"
         placeholder="Cantidad de cuotas"
         min="1"

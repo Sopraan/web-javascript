@@ -1,16 +1,61 @@
+// ESTADO
 let carritoString = "";
+let precioTotal = 0;
 
-let compraJson = localStorage.getItem("Compra") || "";
-cantidadEnCarrito =
-  compraJson == ""
-    ? new Map()
-    : new Map(Object.entries(JSON.parse(compraJson)));
+let precios = new Map();
 
-precios = new Map();
-precios.set("Teclado", 10000);
-precios.set("Pad", 1500);
-precios.set("Mouse", 5000);
+let carritoLocal = localStorage.getItem("compra") || "";
 
+let cantidadEnCarrito = carritoLocal == ""
+  ? new Map()
+  : new Map(Object.entries(JSON.parse(carritoLocal)));
+
+
+// modifica MAP
+
+function cargarPrecios() {
+  fetch("./JSON.json")
+    .then((ofertas) => ofertas.json())
+    .then((ofertas) => {
+      ofertas.forEach((oferta) => {
+        if (oferta.nombre === "teclado") {
+          precios.set("teclado", oferta.precioNuevo);
+        }
+        if (oferta.nombre === "pad") {
+          precios.set("pad", oferta.precioNuevo);
+        }
+        if (oferta.nombre === "mouse") {
+          precios.set("mouse", oferta.precioNuevo);
+        }
+      });
+    })
+    .then(cargarPreciosEnVista);
+}
+
+cargarPrecios();
+
+//EVENTOS
+
+let boton = document.getElementById("agregarTeclado");
+boton.onclick = CarritoTeclado;
+
+let boton2 = document.getElementById("agregarPad");
+boton2.onclick = CarritoPad;
+
+let boton3 = document.getElementById("agregarMouse");
+boton3.onclick = CarritoMouse;
+
+function cargarPreciosEnVista() {
+  document.getElementById("precioTeclado").innerHTML = `Teclado $ ${precios.get(
+    "teclado"
+  )}`;
+  document.getElementById("precioPad").innerHTML = `Pad $ ${precios.get(
+    "pad"
+  )}`;
+  document.getElementById("precioMouse").innerHTML = `Mouse $ ${precios.get(
+    "mouse"
+  )}`;
+}
 
 // se utiliza la funcion fetch para obtener valores del JSON y reflejarlos en el HTML
 function preciosViejos() {
@@ -37,54 +82,27 @@ function preciosViejos() {
     });
 }
 
-// se utiliza la funcion fetch para obtener valores del JSON y reflejarlos en el HTML
-function preciosNuevos() {
-  fetch("./JSON.json")
-    .then((ofertas) => ofertas.json())
-    .then((ofertas) => {
-      ofertas.forEach((oferta) => {
-        if (oferta.nombre === "teclado") {
-          document.getElementById(
-            "precioTeclado"
-          ).innerHTML = `Teclado $ ${oferta.precioNuevo}`;
-        }
-        if (oferta.nombre === "pad") {
-          document.getElementById(
-            "precioPad"
-          ).innerHTML = `Pad $ ${oferta.precioNuevo}`;
-        }
-        if (oferta.nombre === "mouse") {
-          document.getElementById(
-            "precioMouse"
-          ).innerHTML = `Mouse $ ${oferta.precioNuevo}`;
-        }
-      });
-    });
-}
-
-let precioTotal = 0;
 actualizarTextoCarrito();
 
 function CarritoTeclado() {
-  sumarAlCarrito("Teclado");
+  sumarAlCarrito("teclado");
   guardarLocal();
   actualizarTextoCarrito();
 }
 
 function CarritoPad() {
-  sumarAlCarrito("Pad");
+  sumarAlCarrito("pad");
   guardarLocal();
   actualizarTextoCarrito();
 }
 
 function CarritoMouse() {
-  sumarAlCarrito("Mouse");
+  sumarAlCarrito("mouse");
   guardarLocal();
   actualizarTextoCarrito();
 }
 
 function sumarAlCarrito(key) {
-  // !carritos2.has("Teclado")
   !cantidadEnCarrito.has(key)
     ? cantidadEnCarrito.set(key, 1)
     : cantidadEnCarrito.set(key, cantidadEnCarrito.get(key) + 1);
@@ -93,7 +111,8 @@ function sumarAlCarrito(key) {
 function actualizarTextoCarrito() {
   carritoString = "";
   cantidadEnCarrito.forEach(obtenerTextosSegunCantidad);
-  document.getElementById("productosCarrito").innerHTML = `Producrtos Seleccionados <br><br>`+ carritoString;
+  document.getElementById("productosCarrito").innerHTML =
+    `Productos Seleccionados <br><br>` + carritoString;
 }
 
 function obtenerTextosSegunCantidad(value, key, map) {
@@ -109,12 +128,10 @@ function vaciarCarrito() {
   document.getElementById("productosCarrito").innerHTML = "";
 }
 
-
-
-function ocultarCarrito(){
+function ocultarCarrito() {
   carritoString = "";
   cantidadEnCarrito.forEach(obtenerTextosSegunCantidad);
-  document.getElementById("productosCarrito").innerHTML = ""
+  document.getElementById("productosCarrito").innerHTML = "";
 }
 
 /*  PENDIENTE  ENTREGA FINAL  -----    crear boton para mostrar y ocultar carrito
@@ -122,29 +139,17 @@ function ocultarCarrito(){
      sino que cuando se toque el boton de mostrar muestre el carrito actualizado
 */
 
-let boton = document.getElementById("AgregarTeclado");
-boton.onclick = CarritoTeclado;
-
-let boton2 = document.getElementById("AgregarPad");
-boton2.onclick = CarritoPad;
-
-let boton3 = document.getElementById("AgregarMouse");
-boton3.onclick = CarritoMouse;
-
-console.log(cantidadEnCarrito);
-
-
 // ----------------------------------------------------------------
 
 function guardarLocal() {
   localStorage.setItem(
-    "Compra",
+    "compra",
     JSON.stringify(Object.fromEntries(cantidadEnCarrito))
   );
 }
 
 function borrarLocal() {
-  localStorage.clear("Compra");
+  localStorage.clear("compra");
 }
 
 function calcularMontoPorTipo(value, key, map) {
@@ -156,7 +161,7 @@ function calcularMontoPorTipo(value, key, map) {
 }
 
 function calculadora() {
-  let cuotas = document.getElementById("CantidadCuotas").value;
+  let cuotas = document.getElementById("cantidadCuotas").value;
   return cuotas != 1 ? (precioTotal / cuotas) * 1.0425 : precioTotal;
 }
 function mostrarPrecio() {
@@ -186,6 +191,4 @@ function finalizarCompra() {
   }
 }
 
-//let botonTotal = document.getElementById("ValorTotal");
 
-//botonTotal.onclick = mostrarPrecio();
